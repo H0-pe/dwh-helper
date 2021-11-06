@@ -48,5 +48,5 @@ towns.forEach(x => fs.appendFileSync('./exports/towns.csv', `${x};\n`));
 fs.appendFileSync('./exports/parties.csv', `NAME;\n`);
 parties.forEach(x => fs.appendFileSync('./exports/parties.csv', `${x};\n`));
 
-fs.appendFileSync('./exports/towns.csv', `YEAR;\n`)
+fs.appendFileSync('./exports/times.csv', `YEAR;\n`)
 times.forEach(x => fs.appendFileSync('./exports/times.csv', `${x};\n`));
