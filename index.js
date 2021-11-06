@@ -2,36 +2,47 @@ var path = require('path');
 var fs = require('fs');
 
 
+const parties = [];
+const towns = [];
+const times = [];
 
-const files = fs.readdirSync("./CSVs").filter(x => x.includes(".csv")).forEach(x => {
-    const filePath = path.join(__dirname, '/CSVs/' + x);
+const files = fs.readdirSync("./CSVs").filter(x => x.includes(".csv")).forEach(fileName => {
+    const filePath = path.join(__dirname, '/CSVs/' + fileName);
     const file = fs.readFileSync(filePath);
 
-
+    times.push(fileName.split(".")[0].split("_")[1])
+ 
     const data = file.toString().split("\r\n")
         .map(x => x.split(";"));
 
     const dataFiltered = data.filter(x => +x[0] > 40000 && +x[0] < 42000 && !x[0].substr(3, 4).startsWith('00') && !x[0].substr(3, 4).startsWith('99'));
 
-    const outputData = () => {
-        let string = 'GEMEINDE;';
-        for (let i = 9; i < (data[1].length - 5); i += 2) {
-            string += data[1][i] + ';'
-        }
-        string += '\n'
-        dataFiltered.forEach(x => {
-            string += x[1].trim() + ';';
+    for (let i = 9; i < (data[1].length - 5); i += 2) {
+        if(!parties.includes(data[1][i]))
+            parties.push(data[1][i]);
+    }
 
-            for (let index = 9; index < (data[1].length - 5); index += 2) {
-                string += `${x[index].replace(' ','').replace('.','').trim()};`
+
+
+    const outputData = () => {
+        let string = 'TOWN;PARTY;YEAR;VOTES\n';
+       
+        dataFiltered.forEach(y => {
+            if(!towns.includes(y[1].trim()))
+                towns.push(y[1].trim());
+            for (let i = 9; i < (data[1].length - 5); i += 2) {
+                string += `${y[1].trim()};${data[1][i]};${fileName.split(".")[0].split("_")[1]};${y[i].replace(' ','').replace('.','').trim()}\n`
             }
-            string += '\n';
         })
         return string;
     };
 
     if (!fs.existsSync('./exports'))
         fs.mkdirSync('./exports');
-    fs.appendFileSync(`./exports/Export_${x}`, outputData())
+    fs.appendFileSync(`./exports/votes.csv`, outputData())
 
 })
+
+towns.forEach(x => fs.appendFileSync('./exports/towns.csv', `${x};\n`))
+parties.forEach(x => fs.appendFileSync('./exports/parties.csv', `${x};\n`))
+times.forEach(x => fs.appendFileSync('./exports/times.csv', `${x};\n`))
