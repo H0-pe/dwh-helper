@@ -42,7 +42,11 @@ const files = fs.readdirSync("./CSVs").filter(x => x.includes(".csv")).forEach(f
     fs.appendFileSync(`./exports/votes.csv`, outputData())
 
 })
+fs.appendFileSync('./exports/towns.csv', `NAME;\n`);
+towns.forEach(x => fs.appendFileSync('./exports/towns.csv', `${x};\n`));
 
-towns.forEach(x => fs.appendFileSync('./exports/towns.csv', `${x};\n`))
-parties.forEach(x => fs.appendFileSync('./exports/parties.csv', `${x};\n`))
-times.forEach(x => fs.appendFileSync('./exports/times.csv', `${x};\n`))
+fs.appendFileSync('./exports/parties.csv', `NAME;\n`);
+parties.forEach(x => fs.appendFileSync('./exports/parties.csv', `${x};\n`));
+
+fs.appendFileSync('./exports/towns.csv', `YEAR;\n`)
+times.forEach(x => fs.appendFileSync('./exports/times.csv', `${x};\n`));
