@@ -7,12 +7,13 @@ const towns = [];
 const times = [];
 
 const files = fs.readdirSync("./CSVs").filter(x => x.includes(".csv")).forEach(fileName => {
+    console.log(fileName);
     const filePath = path.join(__dirname, '/CSVs/' + fileName);
     const file = fs.readFileSync(filePath);
 
     times.push(fileName.split(".")[0].split("_")[1])
  
-    const data = file.toString().split("\r\n")
+    const data = file.toString().split("\n")
         .map(x => x.split(";"));
 
     const dataFiltered = data.filter(x => +x[0] > 40000 && +x[0] < 42000 && !x[0].substr(3, 4).startsWith('00') && !x[0].substr(3, 4).startsWith('99'));
