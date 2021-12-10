@@ -6,6 +6,10 @@ const parties = [];
 const towns = [];
 const times = [];
 
+fs.readdirSync("./exports").filter(x => x.endsWith(".csv")).forEach(x => {
+    fs.unlinkSync(path.join(__dirname, '/exports/' + x))
+});
+
 const files = fs.readdirSync("./CSVs").filter(x => x.includes(".csv")).forEach(fileName => {
     console.log(fileName);
     const filePath = path.join(__dirname, '/CSVs/' + fileName);
