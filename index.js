@@ -26,7 +26,7 @@ const files = fs.readdirSync("./CSVs").filter(x => x.includes(".csv")).forEach(f
 
 
     const outputData = () => {
-        let string = 'TOWN;PARTY;YEAR;VOTES\n';
+        let string = 'GEMEINDE;PARTEI;JAHR;STIMMEN\n';
        
         dataFiltered.forEach(y => {
             if(!towns.includes(y[1].trim()))
@@ -49,5 +49,5 @@ towns.forEach(x => fs.appendFileSync('./exports/towns.csv', `${x};\n`));
 fs.appendFileSync('./exports/parties.csv', `NAME;\n`);
 parties.forEach(x => fs.appendFileSync('./exports/parties.csv', `${x};\n`));
 
-fs.appendFileSync('./exports/times.csv', `YEAR;\n`)
+fs.appendFileSync('./exports/times.csv', `JAHR;\n`)
 times.forEach(x => fs.appendFileSync('./exports/times.csv', `${x};\n`));
